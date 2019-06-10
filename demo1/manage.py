@@ -4,6 +4,11 @@ import os
 import sys
 
 
+"""
+django 命令行工具 ：完成django项目的交互 
+"""
+
+
 def main():
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'demo1.settings')
     try:
