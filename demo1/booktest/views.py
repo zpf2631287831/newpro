@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect,reverse
 from django.http import HttpResponse,HttpResponseRedirect
 from .models import BookInfo,HeroInfo
 from django.template import loader
@@ -40,12 +40,13 @@ def detail(req,id):
 def deletehero(req,id):
     hero = HeroInfo.objects.get(pk=id)
     hero.delete()
-    return HttpResponseRedirect("/detail/%s/"%(hero.book.id,))
-
+    # return HttpResponseRedirect("/detail/%s/"%(hero.book.id,))
+    return redirect(reverse('booktest:detail', args=(hero.book.id,)))
 def deletebook(req,id):
     book = BookInfo.objects.get(pk=id)
     book.delete()
-    return HttpResponseRedirect("/list/")
+    # return HttpResponseRedirect("/list/")
+    return redirect(reverse('booktest:list'))
 
 def addhero(req,id):
     book = BookInfo.objects.get(pk=id)
@@ -56,6 +57,19 @@ def addhero(req,id):
         hero = HeroInfo()
         hero.name = req.POST.get("heroname")
         hero.content = req.POST.get("herocontent")
+        hero.gender=req.POST.get("sex")
         hero.book = book
         hero.save()
-        return HttpResponseRedirect("/detail/%s/"%(id,))
+        # return HttpResponseRedirect("/detail/%s/"%(id,))
+        return redirect(reverse('booktest:detail',args=(id,)))
+
+def addbook(req):
+    if req.method == "GET":
+        return render(req,"booktest/addbook.html")
+    elif req.method == "POST":
+        book=BookInfo()
+        book.title=req.POST.get('title')
+        book.pub_date=req.POST.get('pub_date')
+        book.save()
+        # return HttpResponseRedirect("/list/")
+        return redirect(reverse('booktest:list'))
