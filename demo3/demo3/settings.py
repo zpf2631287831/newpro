@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'blog',
     'comments',
     'tinymce',
+    'haystack'
 ]
 
 MIDDLEWARE = [
@@ -133,3 +134,19 @@ TINYMCE_DEFAULT_CONFIG = {
     'width': 600,
     'height': 400,
 }
+
+CACHES = {
+"default": {
+"BACKEND": "redis_cache.cache.RedisCache",
+"LOCATION": "localhost:6379",
+'TIMEOUT': 300,
+},
+}
+HAYSTACK_CONNECTIONS = {
+'default': {
+'ENGINE': 'blog.whoosh_cn_backend.WhooshEngine',
+'PATH': os.path.join(BASE_DIR, 'whoosh_index'),
+}
+}
+HAYSTACK_SEARCH_RESULTS_PER_PAGE = 10
+HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'

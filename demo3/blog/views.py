@@ -24,19 +24,23 @@ def getpageinfo(request, queryset, perpage, path):
     page.path = path
     return page
 
-class IndexView(View):
+# class IndexView(View):
     """
-    文章列表页视图类
+    
     """
-    def get(self,req):
-        """
-        重写get请求
-        :param req:
-        :return:
-        """
-        articles = Article.objects.all()
-        page = getpageinfo(req,articles,2,"/")
-        return render(req,"blog/index.html",{"page":page})
+    # def get(self,req):
+    #     """
+    #     重写get请求
+    #     :param req:
+    #     :return:
+    #     """
+from django.views.decorators.cache import cache_page
+# @cache_page(300)
+def index(req):
+    articles = Article.objects.all()
+    page = getpageinfo(req, articles, 2, "/")
+    return render(req, "blog/index.html", {"page": page})
+
 
 class SingleView(View):
     """
