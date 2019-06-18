@@ -2,20 +2,21 @@
 {% extends "blog/base.html" %}
 
 {%  load my_fun %}
-{ % load cache % }
+<!--{ % load cache % }-->
 
 {% block title %}
     文章列表
 {% endblock %}
 
 {% block left %}
-    {% getads as ads %}
 
 
 
+<!--{ % cache 500 carousel % }-->
+{% getads as ads %}
 <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-  { % cache 500 info % }
-    { % for good in info % }
+
+
     <!-- Indicators -->
   <ol class="carousel-indicators">
       {% for a in ads %}
@@ -64,8 +65,6 @@
 
   </div>
 
-    { % endfor % }
- { % endcache % }
 
   <!-- Controls -->
   <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
@@ -77,6 +76,7 @@
     <span class="sr-only">Next</span>
   </a>
 </div>
+<!--{ % endcache % }-->
 
 
 
